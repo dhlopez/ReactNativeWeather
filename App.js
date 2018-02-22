@@ -163,42 +163,40 @@ class FiveDaysByCity extends Component{
         list3: data.list[2],
         list4: data.list[3],
         list5: data.list[4]
-        /*main: data.list[0].main,
-        weather: data.list[0].weather,
-        main: data.main,
-        wind: data.wind,
-        clouds: data.clouds,
-        dt: data.dt,
-        id: data.id,
-        name:data.name,
-        cod:data.cod*/
       })
     })
     .catch((error)=> {
       console.error(error);
     });
-    /*this.setState(prevState=>({
-      iteration: prevState.iteration + 1
-    }));*/
   }
   render(){
     return(
-      <View name="info" style={{flex: 1, backgroundColor: 'skyblue'}}>
-        <Text>
-          {this.state.list1.dt} {this.state.list2.dt} {this.state.list3.dt} {this.state.list4.dt} {this.state.list5.dt}
-        </Text>
-        <Text>
-          
-        </Text>
-        <Text>
-         
-        </Text>
-        <Text>
-          
-        </Text>
-        <Text>
-          
-        </Text>        
+      <View name="info" style={{flex: 1, backgroundColor: 'skyblue', flexDirection: 'row'}}>
+        <View style={{flex: 1}}>
+          <Text>
+            {this.state.list1.dt} 
+          </Text>
+        </View>
+        <View style={{flex: 1}}>
+          <Text>
+            {this.state.list2.dt} 
+          </Text>
+        </View>
+        <View style={{flex: 1}}>
+          <Text>
+            {this.state.list3.dt}
+          </Text>
+        </View>
+        <View style={{flex: 1}}>
+          <Text>
+            {this.state.list4.dt}
+          </Text>
+        </View>
+        <View style={{flex: 1}}>
+          <Text>
+            {this.state.list5.dt}
+          </Text>
+        </View>  
       </View>
     );
   }
