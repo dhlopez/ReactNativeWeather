@@ -1,0 +1,12 @@
+{
+  "expo": {
+	"name": "Awesome Project",
+    "icon": "./icon.png",
+    "version": "1.0.0",
+    "slug": "awesomeproject",
+    "sdkVersion": "25.0.0",
+	"android": {
+      "package": "com.dlapps.awesomeproject"
+    }
+  }
+}
