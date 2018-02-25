@@ -142,12 +142,27 @@ class FiveDaysByCity extends Component{
     //var list1, list2, list3, list4, list5 = [{dt:"",main:["","","","","","","",""], weather:["","","",""], clouds:"", wind:["",""]}];
     super(props)    
     this.state={
-      list1:[{dt:"",main:["","","","","","","",""], weather:["","","",""], clouds:"", wind:["",""]}], 
-      list2:[{dt:"",main:["","","","","","","",""], weather:["","","",""], clouds:"", wind:["",""]}], 
-      list3:[{dt:"",main:["","","","","","","",""], weather:["","","",""], clouds:"", wind:["",""]}], 
-      list4:[{dt:"",main:["","","","","","","",""], weather:["","","",""], clouds:"", wind:["",""]}], 
-      list5:[{dt:"",main:["","","","","","","",""], weather:["","","",""], clouds:"", wind:["",""]}],
-      dt1:"",dt2:"",dt3:"",dt4:"",dt5:""
+      /*list1:[{dt:"",main:[{temp:"",temp_min:"",temp_max:"",humidity:""}], weather:[{main:"",description:"",icon:""}], clouds:"", wind:[{speed:""}]}], 
+      list2:[{dt:"",main:[{temp:"",temp_min:"",temp_max:"",humidity:""}], weather:[{main:"",description:"",icon:""}], clouds:"", wind:[{speed:""}]}], 
+      list3:[{dt:"",main:[{temp:"",temp_min:"",temp_max:"",humidity:""}], weather:[{main:"",description:"",icon:""}], clouds:"", wind:[{speed:""}]}], 
+      list4:[{dt:"",main:[{temp:"",temp_min:"",temp_max:"",humidity:""}], weather:[{main:"",description:"",icon:""}], clouds:"", wind:[{speed:""}]}], 
+      list5:[{dt:"",main:[{temp:"",temp_min:"",temp_max:"",humidity:""}], weather:[{main:"",description:"",icon:""}], clouds:"", wind:[{speed:""}]}],
+      dt1:"",dt2:"",dt3:"",dt4:"",dt5:"", test:""*/
+      list:[{
+        dt:"", 
+        main:[],
+        weather:[],
+        clouds: "",
+        wind:[]
+
+        /*{
+          dt:"",
+          main:[/*{temp:"",temp_min:"",temp_max:"",humidity:""}], 
+          weather:[/*{main:"",description:"",icon:""}], 
+          clouds:"", 
+          wind:[{speed:""}]
+        }*/
+      }]
     };
     //bind your instance method to the method itself to update data.
     this.GetDaysByCity = this.GetDaysByCity.bind(this);
@@ -166,7 +181,14 @@ class FiveDaysByCity extends Component{
     })
     .then((data)=>{
       this.setState({
-        list1: data.list[0],
+        /*list1:[{
+          dt:"",
+          main:[{temp:"",temp_min:"",temp_max:"",humidity:""}], 
+          weather:[{main:"",description:"",icon:""}], 
+          clouds:"", 
+          wind:[{speed:""}]
+        }]*/
+        /*list1: data.list[0],
         list2: data.list[1],
         list3: data.list[2],
         list4: data.list[3],
@@ -175,7 +197,8 @@ class FiveDaysByCity extends Component{
         dt2: new Date(data.list[1].dt*1000).toString().substring(0,30),
         dt3: new Date(data.list[2].dt*1000).toString().substring(0,30),
         dt4: new Date(data.list[3].dt*1000).toString().substring(0,30),
-        dt5: new Date(data.list[4].dt*1000).toString().substring(0,30)
+        dt5: new Date(data.list[4].dt*1000).toString().substring(0,30)*/
+        list:data.list
       })
     })
     .catch((error)=> {
@@ -183,13 +206,35 @@ class FiveDaysByCity extends Component{
     });
   }
   render(){
+    contents = this.state.list.map((item) => {
+      //We need to return the corresponding mapping for each item too.
+      return (
+          <View key={item.dt}>
+            <Text>
+              {item.dt}
+            </Text>
+          </View>
+        );
+     });
+    return (
+      <View>
+        {contents}
+      </View>
+    );
+  }
+}
+    /*
     return(
       <View name="info" style={{flex: 1, backgroundColor: 'skyblue', flexDirection: 'row'}}>
+        <View style={{flex: 1}}>
+
+        </View>
         <View style={{flex: 1}}>
           <Text>
             {this.state.dt1} 
             {this.state.list1.main.temp_min}
-            {this.state.list1.main.temp_max}
+            {this.state.test}
+            {this.state.list1.temp_max}
           </Text>
         </View>
         <View style={{flex: 1}}>
@@ -215,15 +260,13 @@ class FiveDaysByCity extends Component{
         </View>
         <View style={{flex: 1}}>
           <Text>
-            {/*this.state.dt5*/}
             {this.state.list5.temp_min}
             {this.state.list5.temp_max}
           </Text>
         </View>  
       </View>
-    );
-  }
-}
+    );*/
+
 
 export default class BlinkApp extends Component {
   render() {
