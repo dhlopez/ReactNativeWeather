@@ -15,7 +15,7 @@ class City extends Component{
   }
   //London ID 6058560
   GetByCity() {
-    fetch('https://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=71c31da7413938a93700ab6547f02be4')
+    fetch('https://api.openweathermap.org/data/2.5/weather?q=London,ca&APPID=71c31da7413938a93700ab6547f02be4')
     .then((response) =>  {
       return response.json()
     })
@@ -44,6 +44,21 @@ class City extends Component{
     return(
       <View name="info" style={{flex: 4, backgroundColor: 'steelblue'}}>
         <Text>
+          {this.state.name}
+        </Text>
+        <Text>
+          {this.state.main.temp}
+        </Text>
+        <Text>
+          {this.state.main.temp_min}
+        </Text>
+        <Text>
+          {this.state.main.temp_max}
+        </Text>
+         {/*<Text>
+          Image?
+        </Text>
+       <Text>
           {this.props.city}
         </Text>
         <Text>
@@ -52,7 +67,7 @@ class City extends Component{
         <Button 
           onPress={this.GetByCity}
           title= "By City"
-          />
+          />*/}
        <Text>
           {this.state.coord.lon}
         </Text>
@@ -94,21 +109,13 @@ class City extends Component{
           {this.state.weather.icon}
         </Text>
         <Text>
-          {this.state.main.temp}
-        </Text>
-        <Text>
           {this.state.main.humidity}
         </Text>
         <Text>
           {this.state.main.pressure}
         </Text>
 
-        <Text>
-          {this.state.main.temp_min}
-        </Text>
-        <Text>
-          {this.state.main.temp_max}
-        </Text>
+        
         <Text>
           {this.state.wind.speed}
         </Text>
@@ -121,9 +128,7 @@ class City extends Component{
         <Text>
           {this.state.id}
         </Text>
-        <Text>
-          {this.state.name}
-        </Text>
+        
         <Text>
           {this.state.cod}
         </Text>
@@ -141,14 +146,17 @@ class FiveDaysByCity extends Component{
       list2:[{dt:"",main:["","","","","","","",""], weather:["","","",""], clouds:"", wind:["",""]}], 
       list3:[{dt:"",main:["","","","","","","",""], weather:["","","",""], clouds:"", wind:["",""]}], 
       list4:[{dt:"",main:["","","","","","","",""], weather:["","","",""], clouds:"", wind:["",""]}], 
-      list5:[{dt:"",main:["","","","","","","",""], weather:["","","",""], clouds:"", wind:["",""]}]
+      list5:[{dt:"",main:["","","","","","","",""], weather:["","","",""], clouds:"", wind:["",""]}],
+      dt1:"",dt2:"",dt3:"",dt4:"",dt5:""
     };
     //bind your instance method to the method itself to update data.
     this.GetDaysByCity = this.GetDaysByCity.bind(this);
+    //this.ConvertToHumanDate = this.ConvertToHumanDate.bind(this);
   }
   componentDidMount(){
   // For initial data
     this.GetDaysByCity();
+    //this.ConvertToHumanDate();
   }
   //London ID 6058560
   GetDaysByCity() {
@@ -162,7 +170,12 @@ class FiveDaysByCity extends Component{
         list2: data.list[1],
         list3: data.list[2],
         list4: data.list[3],
-        list5: data.list[4]
+        list5: data.list[4],
+        dt1: new Date(data.list[0].dt*1000).toString().substring(0,30),
+        dt2: new Date(data.list[1].dt*1000).toString().substring(0,30),
+        dt3: new Date(data.list[2].dt*1000).toString().substring(0,30),
+        dt4: new Date(data.list[3].dt*1000).toString().substring(0,30),
+        dt5: new Date(data.list[4].dt*1000).toString().substring(0,30)
       })
     })
     .catch((error)=> {
@@ -174,27 +187,37 @@ class FiveDaysByCity extends Component{
       <View name="info" style={{flex: 1, backgroundColor: 'skyblue', flexDirection: 'row'}}>
         <View style={{flex: 1}}>
           <Text>
-            {this.state.list1.dt} 
+            {this.state.dt1} 
+            {this.state.list1.main.temp_min}
+            {this.state.list1.main.temp_max}
           </Text>
         </View>
         <View style={{flex: 1}}>
           <Text>
-            {this.state.list2.dt} 
+            {this.state.dt2}
+            {this.state.list2.temp_min}
+            {this.state.list2.temp_max}
           </Text>
         </View>
         <View style={{flex: 1}}>
           <Text>
-            {this.state.list3.dt}
+            {this.state.dt3}
+            {this.state.list3.temp_min}
+            {this.state.list3.temp_max}
           </Text>
         </View>
         <View style={{flex: 1}}>
           <Text>
-            {this.state.list4.dt}
+            {this.state.dt4}
+            {this.state.list4.temp_min}
+            {this.state.list4.temp_max}
           </Text>
         </View>
         <View style={{flex: 1}}>
           <Text>
-            {this.state.list5.dt}
+            {/*this.state.dt5*/}
+            {this.state.list5.temp_min}
+            {this.state.list5.temp_max}
           </Text>
         </View>  
       </View>
