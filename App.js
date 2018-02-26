@@ -209,9 +209,12 @@ class FiveDaysByCity extends Component{
     contents = this.state.list.map((item) => {
       //We need to return the corresponding mapping for each item too.
       return (
-          <View key={item.dt}>
+          <View key={new Date(item.dt*1000).toString().substring(0,3).split(" ")}>
             <Text>
-              {item.dt}
+              {a = new Date(item.dt*1000).toString().substring(0,3).split(" ")} 
+              {' '}
+              {a=="Mon"?Math.round(item.main.temp-273):""}
+              {/*item.main.temp-273*/}
             </Text>
           </View>
         );
