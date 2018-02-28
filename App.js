@@ -166,7 +166,7 @@ class FiveDaysByCity extends Component{
     };
     //bind your instance method to the method itself to update data.
     this.GetDaysByCity = this.GetDaysByCity.bind(this);
-    //this.ConvertToHumanDate = this.ConvertToHumanDate.bind(this);
+    this.resultsFormat = this.resultsFormat.bind(this);
   }
   componentDidMount(){
   // For initial data
@@ -175,7 +175,7 @@ class FiveDaysByCity extends Component{
   }
   //London ID 6058560
   GetDaysByCity() {
-    fetch('https://api.openweathermap.org/data/2.5/forecast?q=London,uk&APPID=71c31da7413938a93700ab6547f02be4')
+    fetch('https://api.openweathermap.org/data/2.5/forecast?q=London,CA&APPID=71c31da7413938a93700ab6547f02be4')
     .then((response) =>  {
       return response.json()
     })
@@ -205,17 +205,39 @@ class FiveDaysByCity extends Component{
       console.error(error);
     });
   }
+  resultsFormat(data)
+  {
+    a=""
+    for (item in data)
+    {
+      {/*a += new Date(item.dt*1000).toString().substring(0,10).split(" ")} 
+      {' '}
+      {a == "Mon"?Math.round(item.main.temp-273):""*/}
+      b = new Date(data[item].dt*1000).toString().substring(0,3).split(" ")
+      if(a.indexOf(b)==-1)
+      {
+        a += "\n" + new Date(data[item].dt*1000).toString().substring(0,3).split(" ") + " " + new Date(data[item].dt*1000).toString().substring(16,21).split(" ") + " "
+      }
+      else
+      {
+        a += Math.round(data[item].main.temp-273) + " " + new Date(data[item].dt*1000).toString().substring(16,21).split(" ") + " "
+      }
+      
+    }
+    return <View><Text>{a}</Text></View>
+  }
   render(){
-    contents = this.state.list.map((item) => {
+    return (this.resultsFormat(this.state.list));
+   /* contents = this.state.list.map((item) => {
       //We need to return the corresponding mapping for each item too.
       return (
           <View key={new Date(item.dt*1000).toString().substring(0,3).split(" ")}>
             <Text>
               {a = new Date(item.dt*1000).toString().substring(0,3).split(" ")} 
               {' '}
-              {a=="Mon"?Math.round(item.main.temp-273):""}
-              {/*item.main.temp-273*/}
-            </Text>
+              {a == "Mon"?Math.round(item.main.temp-273):""}
+              {/*item.main.temp-273*/
+  /*          </Text>
           </View>
         );
      });
@@ -223,7 +245,7 @@ class FiveDaysByCity extends Component{
       <View>
         {contents}
       </View>
-    );
+    );*/
   }
 }
     /*
