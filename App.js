@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { AppRegistry, Button, Text, View } from 'react-native';
+import { AppRegistry, Button, Text, View, Image } from 'react-native';
 
 class City extends Component{
   constructor(props)
   {
     super(props)    
-    this.state={coord: ["",""], iteration:0, sys: ["","","","","",""], main:["","","","",""], weather:["","","",""], wind:["",""], clouds:[""], dt:[""], id:"", name:"",  cod:""};
+    this.state={coord: ["",""], iteration:0, sys: ["","","","","",""], main:["","","","",""], weather:[{id:"",main:"",description:"",icon:""}], wind:["",""], clouds:[""], dt:[""], id:"", name:"",  cod:""};
     //bind your instance method to the method itself to update data.
     this.GetByCity = this.GetByCity.bind(this);
   }
@@ -47,33 +47,33 @@ class City extends Component{
           {this.state.name}
         </Text>
         <Text>
-          {this.state.main.temp}
+          {new Date(this.state.dt*1000).toString().substring(0,15)}
         </Text>
         <Text>
-          {this.state.main.temp_min}
+          {'Current: ' + Math.round(this.state.main.temp-273)}
+        </Text>
+        
+        <Text>
+          {'Humidity: ' + this.state.main.humidity}
         </Text>
         <Text>
-          {this.state.main.temp_max}
-        </Text>
-         {/*<Text>
-          Image?
-        </Text>
-       <Text>
-          {this.props.city}
+          {'Weather: ' + this.state.weather[0].main}
         </Text>
         <Text>
-          {this.props.temp}
+          {'Description: ' + this.state.weather[0].description}
         </Text>
+        <Text>
+          {'Icon: ' + this.state.weather[0].icon.toString()}
+        </Text>
+        {/*var icon = this.state.weather[0].icon ? '04n' : require('./img/04n.png');*/}
+        <Image source={require('./img/04n.png')} />
+         {/*
+        
         <Button 
           onPress={this.GetByCity}
           title= "By City"
-          />*/}
-       <Text>
-          {this.state.coord.lon}
-        </Text>
-        <Text>
-          {this.state.coord.lat}
-        </Text>
+          />
+        */}
         <Text>
           {this.state.iteration}
         </Text>
@@ -99,39 +99,27 @@ class City extends Component{
         <Text>
           {this.state.weather.id}
         </Text>
-        <Text>
-          {this.state.weather.main}
-        </Text>
+        
         <Text>
           {this.state.weather.description}
         </Text>
         <Text>
           {this.state.weather.icon}
         </Text>
-        <Text>
-          {this.state.main.humidity}
-        </Text>
+        
         <Text>
           {this.state.main.pressure}
         </Text>
 
-        
         <Text>
           {this.state.wind.speed}
         </Text>
         <Text>
           {this.state.wind.deg}
         </Text>
-        <Text>
-          {this.state.dt}
-        </Text>
-        <Text>
+        {/*<Text>
           {this.state.id}
-        </Text>
-        
-        <Text>
-          {this.state.cod}
-        </Text>
+        </Text>*/}
       </View>
     );
   }
@@ -139,14 +127,9 @@ class City extends Component{
 class FiveDaysByCity extends Component{
   constructor(props)
   {
-    //var list1, list2, list3, list4, list5 = [{dt:"",main:["","","","","","","",""], weather:["","","",""], clouds:"", wind:["",""]}];
     super(props)    
     this.state={
-      /*list1:[{dt:"",main:[{temp:"",temp_min:"",temp_max:"",humidity:""}], weather:[{main:"",description:"",icon:""}], clouds:"", wind:[{speed:""}]}], 
-      list2:[{dt:"",main:[{temp:"",temp_min:"",temp_max:"",humidity:""}], weather:[{main:"",description:"",icon:""}], clouds:"", wind:[{speed:""}]}], 
-      list3:[{dt:"",main:[{temp:"",temp_min:"",temp_max:"",humidity:""}], weather:[{main:"",description:"",icon:""}], clouds:"", wind:[{speed:""}]}], 
-      list4:[{dt:"",main:[{temp:"",temp_min:"",temp_max:"",humidity:""}], weather:[{main:"",description:"",icon:""}], clouds:"", wind:[{speed:""}]}], 
-      list5:[{dt:"",main:[{temp:"",temp_min:"",temp_max:"",humidity:""}], weather:[{main:"",description:"",icon:""}], clouds:"", wind:[{speed:""}]}],
+      /*list5:[{dt:"",main:[{temp:"",temp_min:"",temp_max:"",humidity:""}], weather:[{main:"",description:"",icon:""}], clouds:"", wind:[{speed:""}]}],
       dt1:"",dt2:"",dt3:"",dt4:"",dt5:"", test:""*/
       list:[{
         dt:"", 
@@ -188,16 +171,8 @@ class FiveDaysByCity extends Component{
           clouds:"", 
           wind:[{speed:""}]
         }]*/
-        /*list1: data.list[0],
-        list2: data.list[1],
-        list3: data.list[2],
-        list4: data.list[3],
-        list5: data.list[4],
-        dt1: new Date(data.list[0].dt*1000).toString().substring(0,30),
-        dt2: new Date(data.list[1].dt*1000).toString().substring(0,30),
-        dt3: new Date(data.list[2].dt*1000).toString().substring(0,30),
-        dt4: new Date(data.list[3].dt*1000).toString().substring(0,30),
-        dt5: new Date(data.list[4].dt*1000).toString().substring(0,30)*/
+        /*list1: data.list[0]
+        dt1: new Date(data.list[0].dt*1000).toString().substring(0,30)*/
         list:data.list
       })
     })
@@ -262,33 +237,6 @@ class FiveDaysByCity extends Component{
             {this.state.list1.temp_max}
           </Text>
         </View>
-        <View style={{flex: 1}}>
-          <Text>
-            {this.state.dt2}
-            {this.state.list2.temp_min}
-            {this.state.list2.temp_max}
-          </Text>
-        </View>
-        <View style={{flex: 1}}>
-          <Text>
-            {this.state.dt3}
-            {this.state.list3.temp_min}
-            {this.state.list3.temp_max}
-          </Text>
-        </View>
-        <View style={{flex: 1}}>
-          <Text>
-            {this.state.dt4}
-            {this.state.list4.temp_min}
-            {this.state.list4.temp_max}
-          </Text>
-        </View>
-        <View style={{flex: 1}}>
-          <Text>
-            {this.state.list5.temp_min}
-            {this.state.list5.temp_max}
-          </Text>
-        </View>  
       </View>
     );*/
 
