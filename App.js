@@ -41,8 +41,10 @@ class City extends Component{
     }));
   }
   render(){
+    {var icon = this.state.weather[0].icon.toString()=='04n'? require('./img/04n.png') : require('./img/04n.png');}
     return(
       <View name="info" style={{flex: 4, backgroundColor: 'steelblue'}}>
+
         <Text>
           {this.state.name}
         </Text>
@@ -63,10 +65,12 @@ class City extends Component{
           {'Description: ' + this.state.weather[0].description}
         </Text>
         <Text>
-          {'Icon: ' + this.state.weather[0].icon.toString()}
+          {'Icon: a' + this.state.weather[0].icon.toString()+'b'}
         </Text>
-        {/*var icon = this.state.weather[0].icon ? '04n' : require('./img/04n.png');*/}
-        <Image source={require('./img/04n.png')} />
+        
+        <Image 
+          source={icon} 
+        />
          {/*
         
         <Button 
@@ -251,6 +255,22 @@ export default class BlinkApp extends Component {
     );
   }
 }
+
+const styles = {
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'blue',
+  },
+  logoStyle: {
+    width: 200,
+    height: 200,
+    marginLeft: 10,
+    marginRight: 5,
+    alignSelf: 'center',
+  },
+};
 
 // skip this line if using Create React Native App
 AppRegistry.registerComponent('AwesomeProject', () => BlinkApp);
