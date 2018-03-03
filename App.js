@@ -15,7 +15,7 @@ class City extends Component{
   }
   //London ID 6058560
   GetByCity() {
-    fetch('https://api.openweathermap.org/data/2.5/weather?q=London,ca&APPID=71c31da7413938a93700ab6547f02be4')
+    fetch('https://api.openweathermap.org/data/2.5/weather?q=London,ca&units=metric&APPID=71c31da7413938a93700ab6547f02be4')
     .then((response) =>  {
       return response.json()
     })
@@ -41,7 +41,25 @@ class City extends Component{
     }));
   }
   render(){
-    {var icon = this.state.weather[0].icon.toString()=='04n'? require('./img/04n.png') : require('./img/04n.png');}
+    {var icon = '03d';
+    icon = this.state.weather[0].icon.toString()=='01n'? require('./img/01n.png') : icon;
+    icon = this.state.weather[0].icon.toString()=='02n'? require('./img/02n.png') : icon;
+    icon = this.state.weather[0].icon.toString()=='03n'? require('./img/03n.png') : icon;
+    icon = this.state.weather[0].icon.toString()=='04n'? require('./img/04n.png') : icon;
+    icon = this.state.weather[0].icon.toString()=='09n'? require('./img/09n.png') : icon;
+    icon = this.state.weather[0].icon.toString()=='10n'? require('./img/10n.png') : icon;
+    icon = this.state.weather[0].icon.toString()=='11n'? require('./img/11n.png') : icon;
+    icon = this.state.weather[0].icon.toString()=='13n'? require('./img/13n.png') : icon;
+    icon = this.state.weather[0].icon.toString()=='50n'? require('./img/50n.png') : icon;
+    icon = this.state.weather[0].icon.toString()=='01d'? require('./img/01d.png') : icon;
+    icon = this.state.weather[0].icon.toString()=='02d'? require('./img/02d.png') : icon;
+    icon = this.state.weather[0].icon.toString()=='03d'? require('./img/03d.png') : icon;
+    icon = this.state.weather[0].icon.toString()=='04d'? require('./img/04d.png') : icon;
+    icon = this.state.weather[0].icon.toString()=='09d'? require('./img/09d.png') : icon;
+    icon = this.state.weather[0].icon.toString()=='10d'? require('./img/10d.png') : icon;
+    icon = this.state.weather[0].icon.toString()=='11d'? require('./img/11d.png') : icon;
+    icon = this.state.weather[0].icon.toString()=='13d'? require('./img/13d.png') : icon;
+    icon = this.state.weather[0].icon.toString()=='50d'? require('./img/50d.png') : icon;}
     return(
       <View name="info" style={{flex: 4, backgroundColor: 'steelblue'}}>
 
@@ -52,7 +70,7 @@ class City extends Component{
           {new Date(this.state.dt*1000).toString().substring(0,15)}
         </Text>
         <Text>
-          {'Current: ' + Math.round(this.state.main.temp-273)}
+          {'Current: ' + Math.round(this.state.main.temp)}
         </Text>
         
         <Text>
@@ -64,9 +82,9 @@ class City extends Component{
         <Text>
           {'Description: ' + this.state.weather[0].description}
         </Text>
-        <Text>
+        {/*<Text>
           {'Icon: a' + this.state.weather[0].icon.toString()+'b'}
-        </Text>
+        </Text>*/}
         
         <Image 
           source={icon} 
@@ -77,10 +95,7 @@ class City extends Component{
           onPress={this.GetByCity}
           title= "By City"
           />
-        */}
-        <Text>
-          {this.state.iteration}
-        </Text>
+        
         <Text>
           {this.state.sys.type}
         </Text>
@@ -89,38 +104,27 @@ class City extends Component{
         </Text>
         <Text>
           {this.state.sys.message}
-        </Text>
+        </Text>*/}
         <Text>
           {this.state.sys.country}
         </Text>
         <Text>
-          {this.state.sys.sunrise}
+          {'Sunrise: \n'+ new Date(this.state.sys.sunrise*1000).toString().substring(0,21)}
         </Text>
         <Text>
-          {this.state.sys.sunset}
-        </Text>
-
-        <Text>
-          {this.state.weather.id}
+          {'Sunset: \n'+ new Date(this.state.sys.sunset*1000).toString().substring(0,21)}
         </Text>
         
         <Text>
-          {this.state.weather.description}
-        </Text>
-        <Text>
-          {this.state.weather.icon}
-        </Text>
-        
-        <Text>
-          {this.state.main.pressure}
+          {'Pressure '+this.state.main.pressure}
         </Text>
 
         <Text>
-          {this.state.wind.speed}
+          {'Wind Speed: '+this.state.wind.speed*3.6 + ' Km/Hour'}
         </Text>
-        <Text>
-          {this.state.wind.deg}
-        </Text>
+        {/*<Text>
+          {'Direction '+ this.state.wind.deg}
+        </Text>*/}
         {/*<Text>
           {this.state.id}
         </Text>*/}
@@ -162,7 +166,7 @@ class FiveDaysByCity extends Component{
   }
   //London ID 6058560
   GetDaysByCity() {
-    fetch('https://api.openweathermap.org/data/2.5/forecast?q=London,CA&APPID=71c31da7413938a93700ab6547f02be4')
+    fetch('https://api.openweathermap.org/data/2.5/forecast?q=London,CA&units=metric&APPID=71c31da7413938a93700ab6547f02be4')
     .then((response) =>  {
       return response.json()
     })
@@ -189,9 +193,6 @@ class FiveDaysByCity extends Component{
     a=""
     for (item in data)
     {
-      {/*a += new Date(item.dt*1000).toString().substring(0,10).split(" ")} 
-      {' '}
-      {a == "Mon"?Math.round(item.main.temp-273):""*/}
       b = new Date(data[item].dt*1000).toString().substring(0,3).split(" ")
       if(a.indexOf(b)==-1)
       {
@@ -199,7 +200,7 @@ class FiveDaysByCity extends Component{
       }
       else
       {
-        a += Math.round(data[item].main.temp-273) + " " + new Date(data[item].dt*1000).toString().substring(16,21).split(" ") + " "
+        a += Math.round(data[item].main.temp) + " " + new Date(data[item].dt*1000).toString().substring(16,21).split(" ") + " "
       }
       
     }
@@ -214,8 +215,8 @@ class FiveDaysByCity extends Component{
             <Text>
               {a = new Date(item.dt*1000).toString().substring(0,3).split(" ")} 
               {' '}
-              {a == "Mon"?Math.round(item.main.temp-273):""}
-              {/*item.main.temp-273*/
+              {a == "Mon"?Math.round(item.main.temp):""}
+              {/*item.main.temp*/
   /*          </Text>
           </View>
         );
@@ -249,8 +250,8 @@ export default class BlinkApp extends Component {
   render() {
     return (
       <View style={{flex: 1, backgroundColor: 'powderblue'}}>
-        <City city="London" temp="2"/>
-        <FiveDaysByCity city="London"/>
+        <City/* city="London" temp="2"*//>
+        <FiveDaysByCity/* city="London"*//>
       </View>
     );
   }
