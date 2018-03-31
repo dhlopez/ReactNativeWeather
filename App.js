@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Button, Text, View, Image } from 'react-native';
+import { AppRegistry, Button, Text, View, Image, StyleSheet } from 'react-native';
 
 class City extends Component{
   constructor(props)
@@ -61,73 +61,78 @@ class City extends Component{
     icon = this.state.weather[0].icon.toString()=='13d'? require('./img/13d.png') : icon;
     icon = this.state.weather[0].icon.toString()=='50d'? require('./img/50d.png') : icon;}
     return(
-      <View name="info" style={{flex: 4, backgroundColor: 'steelblue'}}>
+      <View name="info" style={{flex: 2, backgroundColor: 'steelblue'}}>
+        <View style={{flexDirection: 'row', flex:1}}>
+          <View>
+            <Text>
+              {this.state.name}
+            </Text>
+            <Text>
+              {new Date(this.state.dt*1000).toString().substring(0,15)}
+            </Text>
+            <Text>
+              {'Current: ' + Math.round(this.state.main.temp)}
+            </Text>
+            
+            <Text>
+              {'Humidity: ' + this.state.main.humidity}
+            </Text>
+            <Text>
+              {'Weather: ' + this.state.weather[0].main}
+            </Text>
+            <Text>
+              {'Description: ' + this.state.weather[0].description}
+            </Text>
+            {/*<Text>
+              {'Icon: a' + this.state.weather[0].icon.toString()+'b'}
+            </Text>*/}
+            
+            <Image 
+              source={icon} 
+            />
+          </View>
+          <View>
+             {/*
+            
+            <Button 
+              onPress={this.GetByCity}
+              title= "By City"
+              />
+            
+            <Text>
+              {this.state.sys.type}
+            </Text>
+            <Text>
+              {this.state.sys.id}
+            </Text>
+            <Text>
+              {this.state.sys.message}
+            </Text>*/}
+            <Text>
+              {this.state.sys.country}
+            </Text>
+            <Text>
+              {'Sunrise: \n'+ new Date(this.state.sys.sunrise*1000).toString().substring(0,21)}
+            </Text>
+            <Text>
+              {'Sunset: \n'+ new Date(this.state.sys.sunset*1000).toString().substring(0,21)}
+            </Text>
+            
+            <Text>
+              {'Pressure '+this.state.main.pressure}
+            </Text>
 
-        <Text>
-          {this.state.name}
-        </Text>
-        <Text>
-          {new Date(this.state.dt*1000).toString().substring(0,15)}
-        </Text>
-        <Text>
-          {'Current: ' + Math.round(this.state.main.temp)}
-        </Text>
-        
-        <Text>
-          {'Humidity: ' + this.state.main.humidity}
-        </Text>
-        <Text>
-          {'Weather: ' + this.state.weather[0].main}
-        </Text>
-        <Text>
-          {'Description: ' + this.state.weather[0].description}
-        </Text>
-        {/*<Text>
-          {'Icon: a' + this.state.weather[0].icon.toString()+'b'}
-        </Text>*/}
-        
-        <Image 
-          source={icon} 
-        />
-         {/*
-        
-        <Button 
-          onPress={this.GetByCity}
-          title= "By City"
-          />
-        
-        <Text>
-          {this.state.sys.type}
-        </Text>
-        <Text>
-          {this.state.sys.id}
-        </Text>
-        <Text>
-          {this.state.sys.message}
-        </Text>*/}
-        <Text>
-          {this.state.sys.country}
-        </Text>
-        <Text>
-          {'Sunrise: \n'+ new Date(this.state.sys.sunrise*1000).toString().substring(0,21)}
-        </Text>
-        <Text>
-          {'Sunset: \n'+ new Date(this.state.sys.sunset*1000).toString().substring(0,21)}
-        </Text>
-        
-        <Text>
-          {'Pressure '+this.state.main.pressure}
-        </Text>
-
-        <Text>
-          {'Wind Speed: '+this.state.wind.speed*3.6 + ' Km/Hour'}
-        </Text>
-        {/*<Text>
-          {'Direction '+ this.state.wind.deg}
-        </Text>*/}
-        {/*<Text>
-          {this.state.id}
-        </Text>*/}
+            <Text>
+              {'Wind Speed: '+this.state.wind.speed*3.6 + ' Km/Hour'}
+            </Text>
+            {/*<Text>
+              {'Direction '+ this.state.wind.deg}
+            </Text>*/}
+            {/*<Text>
+              {this.state.id}
+            </Text>*/}
+          </View>
+        </View>
       </View>
     );
   }
@@ -142,7 +147,7 @@ class FiveDaysByCity extends Component{
       list:[{
         dt:"", 
         main:[],
-        weather:[],
+        weather:[{}],
         clouds: "",
         wind:[]
 
@@ -158,11 +163,35 @@ class FiveDaysByCity extends Component{
     //bind your instance method to the method itself to update data.
     this.GetDaysByCity = this.GetDaysByCity.bind(this);
     this.resultsFormat = this.resultsFormat.bind(this);
+    this.GetIconImage = this.GetIconImage.bind(this);
   }
   componentDidMount(){
   // For initial data
     this.GetDaysByCity();
     //this.ConvertToHumanDate();
+  }
+  GetIconImage(icondata)
+  {
+    var icon = '03d';
+    icon = icondata=='01n'? require('./img/01n.png') : icon;
+    icon = icondata=='02n'? require('./img/02n.png') : icon;
+    icon = icondata=='03n'? require('./img/03n.png') : icon;
+    icon = icondata=='04n'? require('./img/04n.png') : icon;
+    icon = icondata=='09n'? require('./img/09n.png') : icon;
+    icon = icondata=='10n'? require('./img/10n.png') : icon;
+    icon = icondata=='11n'? require('./img/11n.png') : icon;
+    icon = icondata=='13n'? require('./img/13n.png') : icon;
+    icon = icondata=='50n'? require('./img/50n.png') : icon;
+    icon = icondata=='01d'? require('./img/01d.png') : icon;
+    icon = icondata=='02d'? require('./img/02d.png') : icon;
+    icon = icondata=='03d'? require('./img/03d.png') : icon;
+    icon = icondata=='04d'? require('./img/04d.png') : icon;
+    icon = icondata=='09d'? require('./img/09d.png') : icon;
+    icon = icondata=='10d'? require('./img/10d.png') : icon;
+    icon = icondata=='11d'? require('./img/11d.png') : icon;
+    icon = icondata=='13d'? require('./img/13d.png') : icon;
+    icon = icondata=='50d'? require('./img/50d.png') : icon;
+    return icon;
   }
   //London ID 6058560
   GetDaysByCity() {
@@ -191,20 +220,42 @@ class FiveDaysByCity extends Component{
   resultsFormat(data)
   {
     a=""
+    viewsFiveDays = new Array();
+    icons = new Array();
+    textAndIcon = new Array();
+    i=0;
+    w=0;
     for (item in data)
     {
+      //for(j=0; j<data[item].weather.length;j++){
+      icon = this.GetIconImage(data[item].weather[0].icon)
+      icons[w] = <Image source={icon}/>
+      //}
+      //day of the week in 3 digits, Mon-Sun
       b = new Date(data[item].dt*1000).toString().substring(0,3).split(" ")
+      //different day
       if(a.indexOf(b)==-1)
       {
-        a += "\n" + new Date(data[item].dt*1000).toString().substring(0,3).split(" ") + " " + new Date(data[item].dt*1000).toString().substring(16,21).split(" ") + " "
+        if(a!="")
+        {
+          viewsFiveDays[i] = <View style={styles.roundBorderWhite}><Text style={styles.whiteMediumFont}>{a}{icons}</Text></View>
+          icons = [];
+        }
+        i++;
+        a="";
+        a += new Date(data[item].dt*1000).toString().substring(0,3).split(" ") + " " +  
+            new Date(data[item].dt*1000).toString().substring(16,21).split(" ") + " " + 
+            Math.round(data[item].main.temp) 
+        
       }
+      //same day, do not add line break
       else
       {
-        a += Math.round(data[item].main.temp) + " " + new Date(data[item].dt*1000).toString().substring(16,21).split(" ") + " "
+        a += new Date(data[item].dt*1000).toString().substring(16,21).split(" ") + " " + Math.round(data[item].main.temp) + " ";
       }
-      
+      w++;
     }
-    return <View><Text>{a}</Text></View>
+    return (<View style={{flex: 3, backgroundColor: 'powderblue'}}>{viewsFiveDays}</View>);//<View style={styles.roundBorderWhite}><Text style={styles.whiteMediumFont}>{a}</Text></View>
   }
   render(){
     return (this.resultsFormat(this.state.list));
@@ -249,7 +300,7 @@ class FiveDaysByCity extends Component{
 export default class BlinkApp extends Component {
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: 'powderblue'}}>
+      <View style={{flex: 10, backgroundColor: 'powderblue'}}>
         <City/* city="London" temp="2"*//>
         <FiveDaysByCity/* city="London"*//>
       </View>
@@ -257,7 +308,7 @@ export default class BlinkApp extends Component {
   }
 }
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -271,7 +322,17 @@ const styles = {
     marginRight: 5,
     alignSelf: 'center',
   },
-};
+  whiteMediumFont: {
+    color:'white',
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+  roundBorderWhite:{
+    borderRadius:10,
+    borderColor: '#fff',
+    borderWidth: 1,
+  }
+});
 
 // skip this line if using Create React Native App
 AppRegistry.registerComponent('AwesomeProject', () => BlinkApp);
