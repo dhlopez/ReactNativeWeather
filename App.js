@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Button, Text, View, Image, StyleSheet } from 'react-native';
+import { AppRegistry, Button, Text, View, Image, StyleSheet, ScrollView } from 'react-native';
 
 class City extends Component{
   constructor(props)
@@ -61,8 +61,8 @@ class City extends Component{
     icon = this.state.weather[0].icon.toString()=='13d'? require('./img/13d.png') : icon;
     icon = this.state.weather[0].icon.toString()=='50d'? require('./img/50d.png') : icon;}
     return(
-      <View name="info" style={{flex: 2, backgroundColor: 'steelblue'}}>
-        <View style={{flexDirection: 'row', flex:1}}>
+      <View name="info" style={{flex: 1, backgroundColor: 'steelblue'}}>
+        <View style={{flexDirection: 'row', flex:1, backgroundColor: 'green'}}>
           <View>
             <Text>
               {this.state.name}
@@ -137,6 +137,7 @@ class City extends Component{
     );
   }
 }
+
 class FiveDaysByCity extends Component{
   constructor(props)
   {
@@ -150,14 +151,6 @@ class FiveDaysByCity extends Component{
         weather:[{}],
         clouds: "",
         wind:[]
-
-        /*{
-          dt:"",
-          main:[/*{temp:"",temp_min:"",temp_max:"",humidity:""}], 
-          weather:[/*{main:"",description:"",icon:""}], 
-          clouds:"", 
-          wind:[{speed:""}]
-        }*/
       }]
     };
     //bind your instance method to the method itself to update data.
@@ -201,15 +194,6 @@ class FiveDaysByCity extends Component{
     })
     .then((data)=>{
       this.setState({
-        /*list1:[{
-          dt:"",
-          main:[{temp:"",temp_min:"",temp_max:"",humidity:""}], 
-          weather:[{main:"",description:"",icon:""}], 
-          clouds:"", 
-          wind:[{speed:""}]
-        }]*/
-        /*list1: data.list[0]
-        dt1: new Date(data.list[0].dt*1000).toString().substring(0,30)*/
         list:data.list
       })
     })
@@ -219,88 +203,64 @@ class FiveDaysByCity extends Component{
   }
   resultsFormat(data)
   {
-    a=""
+    currentDay=""
+    previousDay=""
     viewsFiveDays = new Array();
     icons = new Array();
     textAndIcon = new Array();
+    secondTime = false;
     i=0;
     w=0;
     for (item in data)
     {
       //for(j=0; j<data[item].weather.length;j++){
       icon = this.GetIconImage(data[item].weather[0].icon)
-      icons[w] = <Image source={icon}/>
+      icons/*[w]*/ = <Image source={icon}/>
       //}
       //day of the week in 3 digits, Mon-Sun
-      b = new Date(data[item].dt*1000).toString().substring(0,3).split(" ")
+      currentDay = new Date(data[item].dt*1000).toString().substring(0,3).split(" ")
       //different day
-      if(a.indexOf(b)==-1)
+      if(previousDay.indexOf(currentDay)==-1)
       {
-        if(a!="")
+        //check if it is not the first time
+        /*if(secondTime)
         {
-          viewsFiveDays[i] = <View style={styles.roundBorderWhite}><Text style={styles.whiteMediumFont}>{a}{icons}</Text></View>
-          icons = [];
-        }
+          secondTime = true;*/
+        viewsFiveDays[i] = <View style={styles.roundBorderWhite}>{textAndIcon}</View>
+          
+        //}
+        previousDay = new Date(data[item].dt*1000).toString().substring(0,3).split(" ") + "\n" +  
+            new Date(data[item].dt*1000).toString().substring(16,21).split(" ") + " " 
+        degrees =    Math.round(data[item].main.temp) 
+        textAndIcon[i] = <Text style={styles.whiteMediumFont}>{previousDay}{icons}{degrees}</Text>
         i++;
-        a="";
-        a += new Date(data[item].dt*1000).toString().substring(0,3).split(" ") + " " +  
-            new Date(data[item].dt*1000).toString().substring(16,21).split(" ") + " " + 
-            Math.round(data[item].main.temp) 
-        
+        icons = [];
       }
       //same day, do not add line break
       else
       {
-        a += new Date(data[item].dt*1000).toString().substring(16,21).split(" ") + " " + Math.round(data[item].main.temp) + " ";
+                
+        time = new Date(data[item].dt*1000).toString().substring(16,21).split(" ") + " "
+        previousDay = new Date(data[item].dt*1000).toString().substring(0,3).split(" ") + " " +  
+            new Date(data[item].dt*1000).toString().substring(16,21).split(" ") + " "
+        degrees = Math.round(data[item].main.temp)
+        textAndIcon[i] = <Text style={styles.whiteMediumFont}>{time}{icons}{degrees}</Text>
+        i++;
+        icons = [];
       }
       w++;
     }
-    return (<View style={{flex: 3, backgroundColor: 'powderblue'}}>{viewsFiveDays}</View>);//<View style={styles.roundBorderWhite}><Text style={styles.whiteMediumFont}>{a}</Text></View>
+    return (<View style={{flex: 2, backgroundColor: 'red'}}><ScrollView >{viewsFiveDays}</ScrollView></View>);//<View style={styles.roundBorderWhite}><Text style={styles.whiteMediumFont}>{a}</Text></View>
   }
   render(){
     return (this.resultsFormat(this.state.list));
-   /* contents = this.state.list.map((item) => {
-      //We need to return the corresponding mapping for each item too.
-      return (
-          <View key={new Date(item.dt*1000).toString().substring(0,3).split(" ")}>
-            <Text>
-              {a = new Date(item.dt*1000).toString().substring(0,3).split(" ")} 
-              {' '}
-              {a == "Mon"?Math.round(item.main.temp):""}
-              {/*item.main.temp*/
-  /*          </Text>
-          </View>
-        );
-     });
-    return (
-      <View>
-        {contents}
-      </View>
-    );*/
   }
 }
-    /*
-    return(
-      <View name="info" style={{flex: 1, backgroundColor: 'skyblue', flexDirection: 'row'}}>
-        <View style={{flex: 1}}>
-
-        </View>
-        <View style={{flex: 1}}>
-          <Text>
-            {this.state.dt1} 
-            {this.state.list1.main.temp_min}
-            {this.state.test}
-            {this.state.list1.temp_max}
-          </Text>
-        </View>
-      </View>
-    );*/
-
 
 export default class BlinkApp extends Component {
   render() {
     return (
-      <View style={{flex: 10, backgroundColor: 'powderblue'}}>
+      <View style={{flex: 1}}>
         <City/* city="London" temp="2"*//>
         <FiveDaysByCity/* city="London"*//>
       </View>
@@ -310,7 +270,7 @@ export default class BlinkApp extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    /*flex: 1,*/
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'blue',
