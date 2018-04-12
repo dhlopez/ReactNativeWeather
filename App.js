@@ -208,6 +208,7 @@ class FiveDaysByCity extends Component{
     viewsFiveDays = new Array();
     icons = new Array();
     textAndIcon = new Array();
+    textAndIcon2 = new Array();
     secondTime = false;
     i=0;
     w=0;
@@ -221,36 +222,40 @@ class FiveDaysByCity extends Component{
       currentDay = new Date(data[item].dt*1000).toString().substring(0,3).split(" ")
       //different day
       if(previousDay.indexOf(currentDay)==-1)
-      {
-        //check if it is not the first time
-        /*if(secondTime)
-        {
-          secondTime = true;*/
-        viewsFiveDays[i] = <View style={styles.roundBorderWhite}>{textAndIcon}</View>
-          
-        //}
+      { 
         previousDay = new Date(data[item].dt*1000).toString().substring(0,3).split(" ") + "\n" +  
             new Date(data[item].dt*1000).toString().substring(16,21).split(" ") + " " 
         degrees =    Math.round(data[item].main.temp) 
-        textAndIcon[i] = <Text style={styles.whiteMediumFont}>{previousDay}{icons}{degrees}</Text>
-        i++;
-        icons = [];
+        if(i<20){
+          textAndIcon[i] = <Text style={styles.whiteMediumFont}>{previousDay}{icons}{degrees}</Text>
+        }
+        else{
+          textAndIcon2[i] = <Text style={styles.whiteMediumFont}>{previousDay}{icons}{degrees}</Text>
+        }
+       
       }
       //same day, do not add line break
       else
-      {
-                
+      {     
         time = new Date(data[item].dt*1000).toString().substring(16,21).split(" ") + " "
         previousDay = new Date(data[item].dt*1000).toString().substring(0,3).split(" ") + " " +  
             new Date(data[item].dt*1000).toString().substring(16,21).split(" ") + " "
         degrees = Math.round(data[item].main.temp)
-        textAndIcon[i] = <Text style={styles.whiteMediumFont}>{time}{icons}{degrees}</Text>
-        i++;
-        icons = [];
+        if(i<20){
+          textAndIcon[i] = <Text style={styles.whiteMediumFont}>{time}{icons}{degrees}</Text>
+        }
+        else{
+          textAndIcon2[i] = <Text style={styles.whiteMediumFont}>{time}{icons}{degrees}</Text>
+        }
       }
-      w++;
+      i++;
+      icons = [];
+      
     }
-    return (<View style={{flex: 2, backgroundColor: 'red'}}><ScrollView >{viewsFiveDays}</ScrollView></View>);//<View style={styles.roundBorderWhite}><Text style={styles.whiteMediumFont}>{a}</Text></View>
+    viewsFiveDays[0] = <ScrollView style={{flex:1}}><View style={styles.roundBorderWhite}>{textAndIcon}</View></ScrollView>
+    viewsFiveDays[1] = <ScrollView style={{flex:1}}><View style={styles.roundBorderWhite}>{textAndIcon2}</View></ScrollView>
+    return (<View name = "days" style={{flex:1, backgroundColor: 'white'}}><View style={{flexDirection: 'row', flex: 2, backgroundColor: 'red'}}>{viewsFiveDays}</View></View>);
+    //<View style={styles.roundBorderWhite}><Text style={styles.whiteMediumFont}>{a}</Text></View>
   }
   render(){
     return (this.resultsFormat(this.state.list));
@@ -262,7 +267,7 @@ export default class BlinkApp extends Component {
     return (
       <View style={{flex: 1}}>
         <City/* city="London" temp="2"*//>
-        <FiveDaysByCity/* city="London"*//>
+        <FiveDaysByCity /* city="London"*//>
       </View>
     );
   }
